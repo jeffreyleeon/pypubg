@@ -137,3 +137,17 @@ class PUBGAPI:
         except BaseException as error:
             print('Unhandled exception: ' + str(error))
             raise
+
+    def player_performance(self, player_handle):
+        try:
+            data = self._get_player_profile(player_handle)
+            player_stats = {}
+            return_data = []
+            for stat in data['Stats']:
+                if stat['Region'] == 'agg':
+                    for datas in stat['Stats']:
+                        player_stats['{0}-{1}-{2}'.format(stat['Match'], datas['category'], datas['label'])] = datas['value']
+            return player_stats
+        except BaseException as error:
+            print('Unhandled exception: ' + str(error))
+            raise
